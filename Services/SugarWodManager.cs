@@ -49,10 +49,10 @@ public class SugarWodManager : ISugarWodManager
     /// </summary>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A list of workouts on success, an error message otherwise</returns>
-    public async Task<Result<Workouts>> GetWorkoutsAsync(CancellationToken cancellationToken)
+    public async Task<Result<Workout>> GetWorkoutsAsync(CancellationToken cancellationToken)
     {
-        var result = await api.Get<Workouts>("/v2/workouts", cancellationToken);
-        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Workouts>(result.Error);
+        var result = await api.Get<Workout>("/v2/workouts", cancellationToken);
+        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Workout>(result.Error);
     }
 
     /// <summary>

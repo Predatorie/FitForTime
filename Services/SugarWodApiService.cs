@@ -30,7 +30,7 @@ internal class SugarWodApiService : ISugarWodAPIService
             var message = $"{response.StatusCode}";
             return Result.Fail<T>($"{message}");
         }
-        catch (Newtonsoft.Json.JsonException j)
+        catch (JsonException j)
         {
             return Result.Fail<T>(j.Message);
         }

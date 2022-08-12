@@ -32,7 +32,7 @@
                 Text="Welcome to .NET Multi-platform App UI" />
 
             <Button
-                Command="{Binding GetOwnersCommand}"
+                Command="{Binding GetWorkoutCommand}"
                 HorizontalOptions="Center"
                 IsEnabled="{Binding IsNotBusy}"
                 Text="Owners" />

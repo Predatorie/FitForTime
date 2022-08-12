@@ -26,7 +26,7 @@ public interface ISugarWodManager
     /// </summary>
     /// <param name="cancellationToken">The cancellation token instance</param>
     /// <returns>A list of workouts on success, an error of failure.</returns>
-    Task<Result<Workouts>> GetWorkoutsAsync(CancellationToken cancellationToken);
+    Task<Result<Workout>> GetWorkoutsAsync(CancellationToken cancellationToken);
 }
 
 

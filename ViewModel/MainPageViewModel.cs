@@ -38,10 +38,16 @@ public partial class MainPageViewModel : ObservableObject
     private bool isBusy;
 
     /// <summary>
-    /// Backing field for the owners property
+    /// Backing field for the coaches property
     /// </summary>
     [ObservableProperty]
     private ObservableCollection<Datum> coaches = new();
+
+    /// <summary>
+    /// Backing field for the wods property
+    /// </summary>
+    [ObservableProperty]
+    private ObservableCollection<WodDatum> workouts = new();
 
     /// <summary>
     /// Backing field for the results count property
@@ -116,7 +122,7 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Gets a list of owners
+    /// Gets a list of wods
     /// </summary>
     /// <returns>A task</returns>
     [RelayCommand]
@@ -131,7 +137,7 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetAthletesAsync("owners", cancellationToken);
+            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken);
             if (result.IsSuccess)
             {
                 var coaches = result.Value?.Data;
@@ -180,7 +186,7 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetAthletesAsync("owners", cancellationToken);
+            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken);
             if (result.IsSuccess)
             {
                 var owners = result.Value?.Data;
@@ -200,6 +206,59 @@ public partial class MainPageViewModel : ObservableObject
 
                 link = result.Value.Links?.Next?.ToString();
                 this.HasNextPage = !string.IsNullOrWhiteSpace(this.link);
+            }
+        }
+        catch (Exception ex)
+        {
+            // TODO: Log exception
+        }
+        finally
+        {
+            this.IsBusy = false;
+            cancellationTokenSource?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Gets a list of wod's
+    /// </summary>
+    /// <returns>A task</returns>
+    [RelayCommand]
+    public async Task GetWorkoutAsync()
+    {
+        try
+        {
+            this.IsBusy = true;
+
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken = cancellationTokenSource.Token;
+
+            this.ResultCount = 0;
+
+            var result = await sugarWodManager.GetWorkoutsAsync(cancellationToken);
+            if (result.IsSuccess)
+            {
+                var wods = result.Value?.Data;
+
+                if (wods == null)
+                {
+                    // TODO: Log error
+                    return;
+                }
+
+                foreach (var wod in wods)
+                {
+                    this.Workouts.Add(wod);
+                }
+
+                this.ResultCount = this.Workouts.Count;
+
+                link = result.Value.Links?.Next?.ToString();
+                this.HasNextPage = !string.IsNullOrWhiteSpace(this.link);
+            }
+            else
+            {
+               var error = result.Error;
             }
         }
         catch (Exception ex)
