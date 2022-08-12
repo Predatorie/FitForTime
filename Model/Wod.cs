@@ -13,12 +13,12 @@ public class WorkoutsDatum
 
     public string Id { get; set; }
 
-    public Attributes Attributes { get; set; }
+    public Attribs Attributes { get; set; }
 
     public DatumLinks Links { get; set; }
 }
 
-public partial class Attributes
+public partial class Attribs
 {
     public DateTimeOffset CreatedAt { get; set; }
 

@@ -19,10 +19,10 @@ public class SugarWodManager : ISugarWodManager
     /// <param name="role">The athletes role</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A list of athletes on success, an error message otherwise</returns>
-    public async Task<Result<Athletes>> GetAthletesAsync(string role, CancellationToken cancellationToken)
+    public async Task<Result<Athlete>> GetAthletesAsync(string role, CancellationToken cancellationToken)
     {
-        var result = await api.Get<Athletes>($"/v2/athletes?role={role}&page[limit]=50", cancellationToken);
-        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Athletes>(result.Error);
+        var result = await api.Get<Athlete>($"/v2/athletes?role={role}&page[limit]=50", cancellationToken);
+        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Athlete>(result.Error);
     }
 
     /// <summary>
@@ -31,17 +31,17 @@ public class SugarWodManager : ISugarWodManager
     /// <param name="page">The page url to the next list of athletes</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A list of athletes on success, an error message otherwise</returns>
-    public async Task<Result<Athletes>> GetAthletesNextAsync(string page, CancellationToken cancellationToken)
+    public async Task<Result<Athlete>> GetAthletesNextAsync(string page, CancellationToken cancellationToken)
     {
         // We need to remove the leading base url from the link because
         // our httpClient already has this assigned. We just need the pagination link.
         // From: https://api.sugarwod.com/v2/athletes?page%5Blimit%5D=50&page%5Bskip%5D=50
         // To:   /v2/athletes?page%5Blimit%5D=50&page%5Bskip%5D=50
         var link = ExtractNextPageUrl(page);
-        if (link.IsFailure) return Result.Fail<Athletes>(link.Error);
+        if (link.IsFailure) return Result.Fail<Athlete>(link.Error);
 
-        var result = await api.Get<Athletes>(link.Value, cancellationToken);
-        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Athletes>(result.Error);
+        var result = await api.Get<Athlete>(link.Value, cancellationToken);
+        return result.IsSuccess ? Result.Ok(result.Value) : Result.Fail<Athlete>(result.Error);
     }
 
     /// <summary>

@@ -71,6 +71,7 @@ public static class MauiProgram
         }).AddPolicyHandler(retryWithTimeoutWithCircuitBreakerPolicy);
 
         // Register our Services
+        builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<ISugarWodAPIService, SugarWodApiService>();
         builder.Services.AddSingleton<ISugarWodManager, SugarWodManager>();
 

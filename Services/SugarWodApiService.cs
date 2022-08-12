@@ -15,11 +15,13 @@ internal class SugarWodApiService : ISugarWodAPIService
         {
             // create our registered client
             var client = httpClientFactory.CreateClient("SugarWOD");
+
             // execute the get using out policies
             var response = await client.GetAsync(query, token);
             if (response.IsSuccessStatusCode)
             {
-                var model = await response.Content.ReadFromJsonAsync<T>(cancellationToken: token);
+                var json = await response.Content.ReadAsStringAsync(token);
+                var model = JsonConvert.DeserializeObject<T>(json);
                 return Result.Ok(model);
             }
 
@@ -28,7 +30,7 @@ internal class SugarWodApiService : ISugarWodAPIService
             var message = $"{response.StatusCode}";
             return Result.Fail<T>($"{message}");
         }
-        catch (JsonException j)
+        catch (Newtonsoft.Json.JsonException j)
         {
             return Result.Fail<T>(j.Message);
         }

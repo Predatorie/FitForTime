@@ -1,67 +1,67 @@
 ﻿namespace FitForTime.Model;
 
-public class Athletes
+public partial class Athlete
 {
-    [JsonPropertyName("coaches")]
+    [JsonProperty("data")]
     public Datum[] Data { get; set; }
 
-    [JsonPropertyName("links")]
-    public AthletesLinks Links { get; set; }
+    [JsonProperty("links")]
+    public AthleteLinks Links { get; set; }
 }
 
-public class Datum
+public partial class Datum
 {
-    [JsonPropertyName("type")]
+    [JsonProperty("type")]
     public string Type { get; set; }
 
-    [JsonPropertyName("id")]
+    [JsonProperty("id")]
     public string Id { get; set; }
 
-    [JsonPropertyName("attributes")]
+    [JsonProperty("attributes")]
     public Attributes Attributes { get; set; }
 
-    [JsonPropertyName("links")]
+    [JsonProperty("links")]
     public DatumLinks Links { get; set; }
 }
 
 public partial class Attributes
 {
-    [JsonPropertyName("created_at")]
-    public DateTimeOffset Created { get; set; }
+    [JsonProperty("created_at")]
+    public DateTimeOffset CreatedAt { get; set; }
 
-    [JsonPropertyName("first_name")]
+    [JsonProperty("first_name")]
     public string FirstName { get; set; }
 
-    [JsonPropertyName("last_name")]
+    [JsonProperty("last_name")]
     public string LastName { get; set; }
 
-    [JsonPropertyName("email")]
+    [JsonProperty("email")]
     public string Email { get; set; }
 
-    [JsonPropertyName("gender")]
+    [JsonProperty("gender")]
     public string Gender { get; set; }
 
-    [JsonPropertyName("profile_image_url")]
+    [JsonProperty("profile_image_url")]
     public Uri ProfileImageUrl { get; set; }
 
-    [JsonPropertyName("last_login")]
+    [JsonProperty("last_login")]
     public DateTimeOffset LastLogin { get; set; }
 }
 
 public partial class DatumLinks
 {
-    [JsonPropertyName("ui_athlete")]
+    [JsonProperty("ui_athlete")]
     public Uri UiAthlete { get; set; }
 
-    [JsonPropertyName("remove_from_affiliate")]
+    [JsonProperty("remove_from_affiliate")]
     public Uri RemoveFromAffiliate { get; set; }
 }
 
-public class AthletesLinks
+public partial class AthleteLinks
 {
-    [JsonPropertyName("self")]
+    [JsonProperty("self")]
     public Uri Self { get; set; }
 
-    [JsonPropertyName("next")]
+    [JsonProperty("next")]
     public Uri Next { get; set; }
 }

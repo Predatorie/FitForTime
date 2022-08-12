@@ -24,11 +24,8 @@ public partial class MainPageViewModel : ObservableObject
     /// </summary>
     private string link;
 
-    /// <summary>
-    /// Backing field for the next page link
-    /// </summary>
     [ObservableProperty]
-    private bool nextPage;
+    private bool hasNextPage;
 
     /// <summary>
     /// Backing field for the isBusy property
@@ -73,14 +70,14 @@ public partial class MainPageViewModel : ObservableObject
             cancellationTokenSource = new CancellationTokenSource();
             cancellationToken = cancellationTokenSource.Token;
 
-            var result = await sugarWodManager.GetAthletesAsync("coaches", cancellationToken).ConfigureAwait(false);
+            var result = await sugarWodManager.GetAthletesAsync("athletes", cancellationToken);
             if (result.IsSuccess)
             {
                 var athletes = result.Value?.Data;
 
                 if (athletes == null)
                 {
-                    // No results returned but no error.
+                    // TODO: MessageService.Show -> Result.Fail<T>("Response success but no results returned");
                     return;
                 }
 
@@ -90,7 +87,7 @@ public partial class MainPageViewModel : ObservableObject
                 }
 
                 link = result.Value.Links?.Next?.ToString();
-                //this.HasNextPage = !string.IsNullOrWhiteSpace(this.link);
+                this.HasNextPage = !string.IsNullOrWhiteSpace(this.link);
             }
         }
         catch (Exception ex)
