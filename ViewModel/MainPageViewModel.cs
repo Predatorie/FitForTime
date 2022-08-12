@@ -5,42 +5,47 @@ public partial class MainPageViewModel : ObservableObject
     #region Private Fields
 
     /// <summary>
-    ///     Backing field for the ISugarWodManager property
+    /// Backing field for the ISugarWodManager property
     /// </summary>
     private readonly ISugarWodManager sugarWodManager;
 
     /// <summary>
-    ///     Backing field for the CancellationTokenSource property
+    /// Backing field for the CancellationTokenSource property
     /// </summary>
     private CancellationTokenSource cancellationTokenSource;
 
     /// <summary>
-    ///     Backing field for the CancellationToken property
+    /// Backing field for the CancellationToken property
     /// </summary>
     private CancellationToken cancellationToken;
 
     /// <summary>
-    ///     Backing field for the page link
+    /// Backing field for the page link
     /// </summary>
     private string link;
 
     /// <summary>
-    ///     Backing field for the next page link
+    /// Backing field for the next page link
     /// </summary>
-    [ObservableProperty] private bool nextPage;
+    [ObservableProperty]
+    private bool nextPage;
 
+    /// <summary>
+    /// Backing field for the isBusy property
+    /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotBusy))]
     private bool isBusy;
 
-
+    /// <summary>
+    /// Backing field for the coaches property
+    /// </summary>
     [ObservableProperty]
     private ObservableCollection<Datum> coaches = new();
-
     #endregion
 
     /// <summary>
-    ///     Defines the MainPageViewModel class.
+    /// Defines the MainPageViewModel class.
     /// </summary>
     /// <param name="manager">The ISugarWodManager singleton</param>
     public MainPageViewModel(ISugarWodManager manager)
@@ -54,6 +59,10 @@ public partial class MainPageViewModel : ObservableObject
     /// </summary>
     public bool IsNotBusy => !this.IsBusy;
 
+    /// <summary>
+    /// Gets a list of coaches
+    /// </summary>
+    /// <returns>A task</returns>
     [RelayCommand]
     public async Task GetCoachesAsync()
     {
@@ -67,7 +76,14 @@ public partial class MainPageViewModel : ObservableObject
             var result = await sugarWodManager.GetAthletesAsync("coaches", cancellationToken).ConfigureAwait(false);
             if (result.IsSuccess)
             {
-                var athletes = result.Value.Data;
+                var athletes = result.Value?.Data;
+
+                if (athletes == null)
+                {
+                    // No results returned but no error.
+                    return;
+                }
+
                 foreach (var athlete in athletes)
                 {
                     this.Coaches.Add(athlete);

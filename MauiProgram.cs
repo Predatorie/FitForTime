@@ -2,6 +2,37 @@
 
 public static class MauiProgram
 {
+    #region Private Fields
+
+    /// <summary>
+    ///     429 Too Many Requests
+    /// </summary>
+    private const int TooManyRequests = 429;
+
+    /// <summary>
+    ///     Max allowed retry requests
+    /// </summary>
+    private const int MaxRetryAttempts = 4;
+
+    /// <summary>
+    ///     Max number of attempts before breaking
+    /// </summary>
+    private const int MaxAttemptsBeforeBreaking = 2;
+
+    /// <summary>
+    ///     List of retry codes for a give http static code
+    /// </summary>
+    private static readonly HttpStatusCode[] HttpStatusCodesWorthRetrying =
+    {
+        HttpStatusCode.RequestTimeout, // 408
+        HttpStatusCode.InternalServerError, // 500
+        HttpStatusCode.BadGateway, // 502
+        HttpStatusCode.ServiceUnavailable, // 503
+        HttpStatusCode.GatewayTimeout // 504
+    };
+
+    #endregion
+
     public static MauiApp CreateMauiApp()
     {
         var retryPolicy = Policy
@@ -40,7 +71,6 @@ public static class MauiProgram
         }).AddPolicyHandler(retryWithTimeoutWithCircuitBreakerPolicy);
 
         // Register our Services
-        //builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<ISugarWodAPIService, SugarWodApiService>();
         builder.Services.AddSingleton<ISugarWodManager, SugarWodManager>();
 
@@ -52,35 +82,4 @@ public static class MauiProgram
 
         return builder.Build();
     }
-
-    #region Private Fields
-
-    /// <summary>
-    ///     429 Too Many Requests
-    /// </summary>
-    private const int TooManyRequests = 429;
-
-    /// <summary>
-    ///     Max allowed retry requests
-    /// </summary>
-    private const int MaxRetryAttempts = 4;
-
-    /// <summary>
-    ///     Max number of attempts before breaking
-    /// </summary>
-    private const int MaxAttemptsBeforeBreaking = 2;
-
-    /// <summary>
-    ///     List of retry codes for a give http static code
-    /// </summary>
-    private static readonly HttpStatusCode[] HttpStatusCodesWorthRetrying =
-    {
-        HttpStatusCode.RequestTimeout, // 408
-        HttpStatusCode.InternalServerError, // 500
-        HttpStatusCode.BadGateway, // 502
-        HttpStatusCode.ServiceUnavailable, // 503
-        HttpStatusCode.GatewayTimeout // 504
-    };
-
-    #endregion
 }
