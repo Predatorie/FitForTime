@@ -27,7 +27,7 @@ public partial class Datum
 public partial class Attributes
 {
     [JsonProperty("created_at")]
-    public DateTimeOffset CreatedAt { get; set; }
+    public string CreatedAt { get; set; }
 
     [JsonProperty("first_name")]
     public string FirstName { get; set; }
