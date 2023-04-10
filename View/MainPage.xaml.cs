@@ -7,7 +7,11 @@ public partial class MainPage : ContentPage
 	public MainPage()
 	{
 		InitializeComponent();
-		this.BindingContext = ServiceProvider.GetService<MainPageViewModel>();
+
+		var vm = ServiceProvider.GetService<MainPageViewModel>();
+        this.BindingContext = vm;
+
+        _ = vm.GetWorkoutAsync();
     }
 }
 

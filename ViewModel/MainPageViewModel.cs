@@ -65,6 +65,7 @@ public partial class MainPageViewModel : ObservableObject
     {
         // wire up our services
         sugarWodManager = manager;
+        
     }
 
     /// <summary>

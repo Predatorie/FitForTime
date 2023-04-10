@@ -1,12 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="FitForTime.View.MainPage"
-    xmlns:vms="clr-namespace:FitForTime.ViewModel"
-    x:DataType="vms:MainPageViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:FitForTime.Model"
+    xmlns:vms="clr-namespace:FitForTime.ViewModel"
+    x:DataType="vms:MainPageViewModel">
 
-    <ScrollView>
+
+    <CollectionView ItemsSource="{Binding Workouts}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:WodDatum">
+                <Grid
+                    Margin="20"
+                    HorizontalOptions="CenterAndExpand"
+                    RowSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    
+                    <BoxView Grid.Row="0" Color="Red" />
+                    <Label
+                        Grid.Row="0"
+                        FontSize="Subtitle"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding WodAttributes.Title}"
+                        VerticalTextAlignment="Center" />
+
+
+                    <Label Grid.Row="1" Text="{Binding WodAttributes.Description}" />
+
+
+
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+
+    <!--<ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25"
@@ -38,6 +73,6 @@
                 Text="Owners" />
 
         </VerticalStackLayout>
-    </ScrollView>
+    </ScrollView>-->
 
 </ContentPage>
