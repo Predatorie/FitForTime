@@ -11,19 +11,19 @@
     <CollectionView ItemsSource="{Binding Workouts}">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:WodDatum">
-                <Grid
+          
+                    <Grid
                     Margin="20"
                     HorizontalOptions="CenterAndExpand"
                     RowSpacing="20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    
-                    <BoxView Grid.Row="0" Color="Red" />
-                    <Label
+
+                        <BoxView Grid.Row="0" Color="Red" />
+                        <Label
                         Grid.Row="0"
                         FontSize="Subtitle"
                         HorizontalTextAlignment="Center"
@@ -31,11 +31,13 @@
                         VerticalTextAlignment="Center" />
 
 
-                    <Label Grid.Row="1" Text="{Binding WodAttributes.Description}" />
+                        <Label Grid.Row="1" Text="{Binding WodAttributes.Description}" />
 
 
 
-                </Grid>
+                    </Grid>
+             
+               
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
