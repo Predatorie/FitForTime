@@ -65,7 +65,7 @@ public partial class MainPageViewModel : ObservableObject
     {
         // wire up our services
         sugarWodManager = manager;
-        
+
     }
 
     /// <summary>
@@ -89,7 +89,10 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetAthletesAsync("athletes", cancellationToken);
+            // In the context of a .NET MAUI application, using ConfigureAwait(false) is a common practice in asynchronous methods
+            // to ensure that the code runs efficiently and avoids potential deadlocks, especially when the continuation does not
+            // need to interact with the UI directly.
+            var result = await sugarWodManager.GetAthletesAsync("athletes", cancellationToken).ConfigureAwait(false);
             if (result.IsSuccess)
             {
                 var athletes = result.Value?.Data;
@@ -138,7 +141,7 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken);
+            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken).ConfigureAwait(false);
             if (result.IsSuccess)
             {
                 var coaches = result.Value?.Data;
@@ -187,7 +190,7 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken);
+            var result = await sugarWodManager.GetAthletesAsync("wods", cancellationToken).ConfigureAwait(false);
             if (result.IsSuccess)
             {
                 var owners = result.Value?.Data;
@@ -236,7 +239,7 @@ public partial class MainPageViewModel : ObservableObject
 
             this.ResultCount = 0;
 
-            var result = await sugarWodManager.GetWorkoutsAsync(cancellationToken);
+            var result = await sugarWodManager.GetWorkoutsAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsSuccess)
             {
                 var wods = result.Value?.Data;
@@ -259,7 +262,7 @@ public partial class MainPageViewModel : ObservableObject
             }
             else
             {
-               var error = result.Error;
+                var error = result.Error;
             }
         }
         catch (Exception ex)
