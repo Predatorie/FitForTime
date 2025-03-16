@@ -18,3 +18,4 @@ global using FitForTime.ViewModel;
 global using ServiceProvider = FitForTime.Services.ServiceProvider;
 global using System.Collections.ObjectModel;
 global using Newtonsoft.Json;
+
